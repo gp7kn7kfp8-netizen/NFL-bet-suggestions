@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NFL Suggested Bets & Intel Hub</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -25,17 +22,11 @@
             }
         }
     </script>
-    <style>
-        /* Safari smooth momentum scrolling */
-        body {
-            -webkit-overflow-scrolling: touch;
-        }
-    </style>
 </head>
-<body class="bg-nflnavy-dark text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950">
+<body class="bg-nflnavy-dark text-slate-100 min-h-screen font-sans selection:bg-blue-500 selection:text-white">
 
     <!-- Header & Hero Image Background -->
-    <header class="relative bg-nflnavy border-b border-slate-800 sticky top-0 z-50 shadow-xl overflow-hidden">
+    <header class="relative bg-nflnavy border-b border-slate-800 sticky top-0 z-50 shadow-lg overflow-hidden">
         <div class="absolute inset-0 opacity-20 bg-cover bg-center pointer-events-none" style="background-image: url('https://static.clubs.nfl.com/image/upload/t_editorial_landscape_mobile/commanders/qe28rlwyik96kw7mxkfm.jpg');"></div>
         <div class="relative max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
@@ -44,19 +35,22 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                        NFL Suggested Bets <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Analytics Hub</span>
+                        NFL Suggested Bets <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Analytics Powered</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Data Source: <a href="https://sports-datawebsite.vercel.app/yards/?week=this&pos=RB&mode=proj&games=5&yds=50" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline hover:text-emerald-300">sports-datawebsite.vercel.app</a></p>
+                    <p class="text-xs text-slate-400">Data Source: <a href="https://sports-datawebsite.vercel.app/yards/?week=this&pos=RB&mode=proj&games=5&yds=50" target="_blank" class="text-emerald-400 underline hover:text-emerald-300">sports-datawebsite.vercel.app</a></p>
                 </div>
             </div>
             
             <!-- Navigation Tabs -->
-            <div class="flex items-center bg-slate-900/90 rounded-xl p-1 border border-slate-700 shadow-inner">
-                <button onclick="switchTab('bets')" id="tabBtn-bets" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2 shadow">
-                    <i class="fa-solid fa-bolt"></i> Suggested Bets
+            <div class="flex items-center bg-slate-900/90 rounded-xl p-1 border border-slate-700 flex-wrap gap-1">
+                <button onclick="switchTab('bets')" id="tabBtn-bets" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-bolt"></i> Single Game Bets
                 </button>
-                <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2">
-                    <i class="fa-solid fa-calendar-days"></i> Match Schedule & News
+                <button onclick="switchTab('multigame')" id="tabBtn-multigame" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group"></i> Multi-Game Parlay
+                </button>
+                <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days"></i> Schedule & News
                 </button>
             </div>
         </div>
@@ -65,62 +59,86 @@
     <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 py-8">
 
-        <!-- ================= TAB 1: SUGGESTED BETS ================= -->
+        <!-- ================= TAB 1: SINGLE GAME SUGGESTED BETS ================= -->
         <div id="tabContent-bets" class="space-y-6">
-            <!-- Hero Banner with Stadium Image -->
-            <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-cover bg-center" style="background-image: linear-gradient(to right, rgba(4, 11, 22, 0.95), rgba(11, 22, 42, 0.85)), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200&auto=format&fit=crop');">
+            <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-cover bg-center" style="background-image: linear-gradient(to right, rgba(4, 11, 22, 0.95), rgba(11, 22, 42, 0.85)), url('https://www.ap.org/wp-content/uploads/2026/10/AP26284850751865.jpg');">
                 <div class="z-10 max-w-2xl">
-                    <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800">Yardage Projection Engine</span>
+                    <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800">Advanced Stat Engine</span>
                     <h2 class="text-2xl md:text-3xl font-black text-white mt-2">Single Game Multi-Part Intel</h2>
-                    <p class="text-slate-300 text-sm mt-2 leading-relaxed">Curated combinations (2-4 legs) built from rushing and receiving metrics, keeping odds under 3/1 using advanced last-5-games player trends.</p>
+                    <p class="text-slate-300 text-sm mt-2 leading-relaxed">Combinations (2-4 legs) built from QB passing yards, RB rushing metrics, and overall game points under 3/1 odds.</p>
                 </div>
                 
-                <!-- Position Filters -->
-                <div class="z-10 flex flex-wrap items-center bg-slate-900/90 rounded-xl p-1 border border-slate-700 shrink-0 gap-1">
-                    <button onclick="filterPosition('ALL')" class="pos-btn px-3 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition" data-pos="ALL">All</button>
-                    <button onclick="filterPosition('RB')" class="pos-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-pos="RB">RB</button>
-                    <button onclick="filterPosition('WR')" class="pos-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-pos="WR">WR</button>
-                    <button onclick="filterPosition('QB')" class="pos-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-pos="QB">QB</button>
+                <!-- Category/Stat Filters -->
+                <div class="z-10 flex flex-wrap items-center bg-slate-900/90 rounded-xl p-1 border border-slate-700 gap-1">
+                    <button onclick="filterStat('ALL')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition" data-stat="ALL">All Stats</button>
+                    <button onclick="filterStat('QB')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-stat="QB">QB Pass</button>
+                    <button onclick="filterStat('RB')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-stat="RB">RB Rush</button>
+                    <button onclick="filterStat('PTS')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-stat="PTS">Game Points</button>
                 </div>
             </div>
 
-            <!-- Bets Grid -->
             <div id="betsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Populated via JavaScript -->
+                <!-- Populated via JS -->
             </div>
         </div>
 
-        <!-- ================= TAB 2: SCHEDULE & NEWS ================= -->
+        <!-- ================= TAB 2: MULTI-GAME PARLAY BUILDER ================= -->
+        <div id="tabContent-multigame" class="hidden space-y-6">
+            <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 md:p-8 shadow-xl">
+                <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Cross-Game Builder</span>
+                <h2 class="text-2xl font-black text-white mt-1">Combine 2 Games Into 1 Bet</h2>
+                <p class="text-slate-300 text-sm mt-1 mb-6">Select 2 separate matchups below to automatically generate a multi-game banker bet running across both fixtures under 3/1 odds.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6" id="gameSelectorContainer">
+                    <!-- Populated via JS -->
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-emerald-400"></i> Generated 2-Game Cross Bet Slip
+                    </h3>
+                    <div id="multiGameResult" class="space-y-4">
+                        <p class="text-slate-400 text-sm italic">Please select exactly 2 games above to build your cross-match ticket.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: SCHEDULE & NEWS ================= -->
         <div id="tabContent-schedule" class="hidden space-y-8">
-            <!-- Schedule Section -->
+            <!-- Day-by-Day Filter Bar -->
             <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 shadow-xl">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <div>
                         <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Weekly Slate</span>
-                        <h2 class="text-xl font-black text-white mt-1">Upcoming Games & Matchups</h2>
+                        <h2 class="text-xl font-black text-white mt-1">Match Schedule by Day</h2>
                     </div>
-                    <div class="text-xs text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700">
-                        <i class="fa-solid fa-clock mr-1 text-emerald-400"></i> Auto-synced weekly
+                    <!-- Day Bar Buttons -->
+                    <div class="flex flex-wrap items-center bg-slate-900 rounded-xl p-1 border border-slate-700 gap-1">
+                        <button onclick="filterDay('ALL')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition" data-day="ALL">All Days</button>
+                        <button onclick="filterDay('Thursday')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Thursday">Thursday</button>
+                        <button onclick="filterDay('Sunday')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Sunday">Sunday</button>
+                        <button onclick="filterDay('Monday')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Monday">Monday</button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="scheduleContainer">
-                    <!-- Populated via JavaScript -->
+                    <!-- Populated via JS -->
                 </div>
             </div>
 
             <!-- Sleeper News Feed Section -->
             <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 shadow-xl">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                <div class="flex items-center justify-between mb-6">
                     <div>
-                        <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Live Updates</span>
-                        <h2 class="text-xl font-black text-white mt-1"><i class="fa-solid fa-newspaper text-emerald-400 mr-2"></i> Sleeper NFL News & Injury Hits</h2>
+                        <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Live Intel</span>
+                        <h2 class="text-xl font-black text-white mt-1"><i class="fa-solid fa-newspaper text-emerald-400 mr-2"></i> Sleeper NFL News & Injury Updates</h2>
                     </div>
-                    <span class="bg-blue-600/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full border border-blue-500/30">Updated Daily</span>
+                    <span class="bg-blue-600/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full border border-blue-500/30">Synced Daily</span>
                 </div>
 
                 <div class="space-y-4" id="sleeperNewsContainer">
-                    <!-- Populated via JavaScript -->
+                    <!-- Populated via JS -->
                 </div>
             </div>
         </div>
@@ -129,167 +147,163 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 mt-20 py-8 text-center text-xs text-slate-500">
-        <p>NFL Suggested Bets & Intel Hub &bull; Built for GitHub hosting. Powered by data analytics from <a href="https://sports-datawebsite.vercel.app/yards/?week=this&pos=RB&mode=proj&games=5&yds=50" target="_blank" rel="noopener noreferrer" class="text-slate-400 underline hover:text-slate-300">sports-datawebsite.vercel.app</a>.</p>
+        <p>Built for GitHub hosting. Powered by data analytics from <a href="https://sports-datawebsite.vercel.app/yards/?week=this&pos=RB&mode=proj&games=5&yds=50" target="_blank" class="text-slate-400 underline">sports-datawebsite.vercel.app</a>.</p>
     </footer>
 
-    <!-- Application JavaScript Logic -->
+    <!-- Application Script -->
     <script>
         const suggestedBetsData = [
             {
+                id: 1,
                 game: "Kansas City Chiefs vs. Las Vegas Raiders",
                 time: "Sun 18:00 GMT",
+                day: "Sunday",
                 venue: "Arrowhead Stadium",
-                pos: "RB",
-                player: "Isiah Pacheco",
-                odds: "11/5",
-                intel: "Data indicates Pacheco cleared 50+ rushing yards in 4 of last 5 games against comparable defensive fronts.",
+                statType: "QB",
+                player: "Patrick Mahomes",
+                odds: "12/5",
+                intel: "Vercel passing projections show Mahomes clearing 235.5 passing yards in 4 of last 5 games.",
                 legs: [
+                    "Patrick Mahomes Over 237.5 Passing Yards",
                     "Isiah Pacheco Over 43.5 Rushing Yards",
-                    "Isiah Pacheco 1+ Alternate Receptions",
-                    "Ameer Abdullah Over 25.5 Receiving Yards"
+                    "Chiefs Team Total Over 23.5 Points"
                 ]
             },
             {
+                id: 2,
                 game: "San Francisco 49ers vs. Seattle Seahawks",
                 time: "Sun 21:05 GMT",
+                day: "Sunday",
                 venue: "Levi's Stadium",
-                pos: "RB",
+                statType: "RB",
                 player: "Christian McCaffrey",
                 odds: "13/8",
-                intel: "Model projects 75+ scrimmage yards with high red-zone touch share based on recent 5-game breakdown.",
+                intel: "Model projects 75+ scrimmage yards with high volume touch share over last 5 matches.",
                 legs: [
                     "Christian McCaffrey Over 55.5 Rushing Yards",
                     "Christian McCaffrey Over 25.5 Receiving Yards"
                 ]
             },
             {
+                id: 3,
                 game: "Buffalo Bills vs. Miami Dolphins",
                 time: "Sun 21:25 GMT",
+                day: "Sunday",
                 venue: "Highmark Stadium",
-                pos: "WR",
-                player: "Khalil Shakir",
-                odds: "5/2",
-                intel: "Maintains an 82% catch rate over the last 5 games against zone coverages.",
+                statType: "PTS",
+                player: "Josh Allen",
+                odds: "9/5",
+                intel: "High-scoring divisional history points to an over on overall game points and alternating scores.",
                 legs: [
-                    "James Cook Over 40.5 Rushing Yards",
-                    "Khalil Shakir Over 35.5 Receiving Yards",
-                    "Miami Team Total Over 19.5 Points"
+                    "Josh Allen Over 215.5 Passing Yards",
+                    "Total Game Points Over 44.5",
+                    "James Cook Over 35.5 Rushing Yards"
                 ]
             },
             {
+                id: 4,
                 game: "Baltimore Ravens vs. Cincinnati Bengals",
                 time: "Mon 01:20 GMT",
+                day: "Monday",
                 venue: "M&T Bank Stadium",
-                pos: "RB",
+                statType: "RB",
                 player: "Derrick Henry",
                 odds: "6/4",
-                intel: "Averaging 18.4 carries per game over the past month with dominant yardage after contact stats.",
+                intel: "Averaging 18.4 carries per game over past month with dominant rushing floor.",
                 legs: [
                     "Derrick Henry Over 64.5 Rushing Yards",
                     "Derrick Henry 1+ Alternate Rushing Touchdowns"
                 ]
             },
             {
+                id: 5,
                 game: "Philadelphia Eagles vs. Dallas Cowboys",
                 time: "Sun 18:00 GMT",
+                day: "Sunday",
                 venue: "Lincoln Financial Field",
-                pos: "RB",
-                player: "Saquon Barkley",
-                odds: "7/5",
-                intel: "Exceeded 50+ rushing yards in 5 straight outings with 5.4 yards per carry average.",
+                statType: "QB",
+                player: "Jalen Hurts",
+                odds: "2/1",
+                intel: "Combined passing and rushing yardage floor exceeds 230 yards in recent fixtures.",
                 legs: [
-                    "Saquon Barkley Over 59.5 Rushing Yards",
-                    "Saquon Barkley 3+ Receptions"
+                    "Jalen Hurts Over 195.5 Passing Yards",
+                    "Saquon Barkley Over 55.5 Rushing Yards"
                 ]
             },
             {
-                game: "Detroit Lions vs. Minnesota Vikings",
-                time: "Sun 18:00 GMT",
-                venue: "Ford Field",
-                pos: "WR",
-                player: "Amon-Ra St. Brown",
-                odds: "9/4",
-                intel: "Consistent volume leader with 8+ targets in each of his last 5 games.",
+                id: 6,
+                game: "Los Angeles Rams vs. Minnesota Vikings",
+                time: "Thu 01:15 GMT",
+                day: "Thursday",
+                venue: "SoFi Stadium",
+                statType: "PTS",
+                player: "Matthew Stafford",
+                odds: "11/5",
+                intel: "Both offenses average over 24 points per game over the last 5 outings.",
                 legs: [
-                    "Amon-Ra St. Brown Over 50.5 Receiving Yards",
-                    "Jahmyr Gibbs Over 35.5 Rushing Yards"
+                    "Matthew Stafford Over 225.5 Passing Yards",
+                    "Total Game Points Over 42.5",
+                    "Justin Jefferson Over 55.5 Receiving Yards"
                 ]
             }
         ];
 
         const scheduleData = [
-            { home: "Kansas City Chiefs", away: "Las Vegas Raiders", time: "Sun, 18:00 GMT", venue: "Arrowhead Stadium" },
-            { home: "San Francisco 49ers", away: "Seattle Seahawks", time: "Sun, 21:05 GMT", venue: "Levi's Stadium" },
-            { home: "Buffalo Bills", away: "Miami Dolphins", time: "Sun, 21:25 GMT", venue: "Highmark Stadium" },
-            { home: "Baltimore Ravens", away: "Cincinnati Bengals", time: "Mon, 01:20 GMT", venue: "M&T Bank Stadium" },
-            { home: "Philadelphia Eagles", away: "Dallas Cowboys", time: "Sun, 18:00 GMT", venue: "Lincoln Financial Field" },
-            { home: "Detroit Lions", away: "Minnesota Vikings", time: "Sun, 18:00 GMT", venue: "Ford Field" }
+            { home: "Los Angeles Rams", away: "Minnesota Vikings", time: "Thu, 01:15 GMT", day: "Thursday", venue: "SoFi Stadium" },
+            { home: "Kansas City Chiefs", away: "Las Vegas Raiders", time: "Sun, 18:00 GMT", day: "Sunday", venue: "Arrowhead Stadium" },
+            { home: "San Francisco 49ers", away: "Seattle Seahawks", time: "Sun, 21:05 GMT", day: "Sunday", venue: "Levi's Stadium" },
+            { home: "Buffalo Bills", away: "Miami Dolphins", time: "Sun, 21:25 GMT", day: "Sunday", venue: "Highmark Stadium" },
+            { home: "Philadelphia Eagles", away: "Dallas Cowboys", time: "Sun, 18:00 GMT", day: "Sunday", venue: "Lincoln Financial Field" },
+            { home: "Baltimore Ravens", away: "Cincinnati Bengals", time: "Mon, 01:20 GMT", day: "Monday", venue: "M&T Bank Stadium" }
         ];
 
         const sleeperNewsData = [
-            {
-                time: "2 hours ago",
-                tag: "Injury Update",
-                title: "RB Isiah Pacheco (Chiefs) fully cleared for full workload ahead of Sunday matchup",
-                source: "Sleeper NFL Wire"
-            },
-            {
-                time: "4 hours ago",
-                tag: "Roster News",
-                title: "49ers coaching staff signals increased target share for Christian McCaffrey in passing game",
-                source: "Sleeper Analytics"
-            },
-            {
-                time: "6 hours ago",
-                tag: "Weather Advisory",
-                title: "Highmark Stadium game forecast: Clear conditions expected for Bills vs. Dolphins kickoff",
-                source: "Sleeper Meteorologist"
-            },
-            {
-                time: "1 day ago",
-                tag: "Practice Report",
-                title: "Derrick Henry logs full practice session, maintaining robust snap share trends for Week slate",
-                source: "Sleeper Beat Writer"
-            }
+            { time: "2 hours ago", tag: "Injury Update", title: "RB Isiah Pacheco (Chiefs) fully cleared for full workload ahead of Sunday matchup", source: "Sleeper NFL Wire" },
+            { time: "4 hours ago", tag: "Roster News", title: "49ers coaching staff signals increased target share for Christian McCaffrey", source: "Sleeper Analytics" },
+            { time: "6 hours ago", tag: "Weather Advisory", title: "Highmark Stadium forecast: Clear conditions expected for Bills vs. Dolphins", source: "Sleeper Meteorologist" },
+            { time: "1 day ago", tag: "Practice Report", title: "Derrick Henry logs full practice session, maintaining robust snap share trends", source: "Sleeper Beat Writer" }
         ];
 
-        let currentFilter = 'ALL';
+        let currentStatFilter = 'ALL';
+        let currentDayFilter = 'ALL';
+        let selectedMultiGames = [];
 
         function switchTab(tab) {
             const betsTab = document.getElementById('tabContent-bets');
+            const multiTab = document.getElementById('tabContent-multigame');
             const schedTab = document.getElementById('tabContent-schedule');
+            
             const btnBets = document.getElementById('tabBtn-bets');
+            const btnMulti = document.getElementById('tabBtn-multigame');
             const btnSched = document.getElementById('tabBtn-schedule');
+
+            betsTab.classList.add('hidden');
+            multiTab.classList.add('hidden');
+            schedTab.classList.add('hidden');
+
+            btnBets.className = "px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
+            btnMulti.className = "px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
+            btnSched.className = "px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
 
             if (tab === 'bets') {
                 betsTab.classList.remove('hidden');
-                schedTab.classList.add('hidden');
-                btnBets.className = "px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2 shadow";
-                btnSched.className = "px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
+                btnBets.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2";
+            } else if (tab === 'multigame') {
+                multiTab.classList.remove('hidden');
+                btnMulti.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2";
+                renderMultiGameSelector();
             } else {
-                betsTab.classList.add('hidden');
                 schedTab.classList.remove('hidden');
-                btnSched.className = "px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2 shadow";
-                btnBets.className = "px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
-                renderScheduleAndNews();
+                btnSched.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2";
+                renderScheduleAndNews('ALL');
             }
         }
 
-        function renderBets(filter = 'ALL') {
+        function renderBets(statFilter = 'ALL') {
             const container = document.getElementById('betsContainer');
             container.innerHTML = '';
 
-            const filtered = filter === 'ALL' ? suggestedBetsData : suggestedBetsData.filter(b => b.pos === filter);
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-2 text-center py-16 bg-nflnavy-card rounded-2xl border border-slate-700/50">
-                        <i class="fa-solid fa-triangle-exclamation text-3xl text-amber-400 mb-3"></i>
-                        <p class="text-slate-300 font-medium">No suggested bets found matching this position filter.</p>
-                    </div>
-                `;
-                return;
-            }
+            const filtered = statFilter === 'ALL' ? suggestedBetsData : suggestedBetsData.filter(b => b.statType === statFilter);
 
             filtered.forEach((bet) => {
                 let legsHtml = '';
@@ -320,7 +334,7 @@
                         </div>
 
                         <div class="bg-slate-900/80 border-l-4 border-emerald-500 p-3.5 rounded-r-xl mb-5 text-xs text-slate-300 leading-relaxed">
-                            <span class="font-bold text-emerald-400 block mb-1"><i class="fa-solid fa-chart-line mr-1"></i> Vercel Data Intel:</span>
+                            <span class="font-bold text-emerald-400 block mb-1"><i class="fa-solid fa-chart-line mr-1"></i> Vercel Data Intel (${bet.statType}):</span>
                             ${bet.intel}
                         </div>
 
@@ -334,38 +348,113 @@
             });
         }
 
-        function filterPosition(pos) {
-            currentFilter = pos;
-            document.querySelectorAll('.pos-btn').forEach(btn => {
-                if (btn.dataset.pos === pos) {
-                    btn.className = "pos-btn px-3 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition shadow";
+        function filterStat(stat) {
+            currentStatFilter = stat;
+            document.querySelectorAll('.stat-btn').forEach(btn => {
+                if (btn.dataset.stat === stat) {
+                    btn.className = "stat-btn px-3 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
                 } else {
-                    btn.className = "pos-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+                    btn.className = "stat-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
                 }
             });
-            renderBets(pos);
+            renderBets(stat);
         }
 
-        function renderScheduleAndNews() {
-            const schedContainer = document.getElementById('scheduleContainer');
-            if (schedContainer.children.length === 0) {
-                scheduleData.forEach(game => {
-                    const card = document.createElement('div');
-                    card.className = "bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between";
-                    card.innerHTML = `
-                        <div>
-                            <span class="text-xs font-bold text-emerald-400">${game.time}</span>
-                            <div class="text-sm font-bold text-white mt-1">${game.away} @ ${game.home}</div>
-                            <div class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${game.venue}</div>
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
-                            <span>Status: Upcoming</span>
-                            <span class="text-emerald-400 font-semibold">Synced</span>
-                        </div>
-                    `;
-                    schedContainer.appendChild(card);
-                });
+        function renderMultiGameSelector() {
+            const container = document.getElementById('gameSelectorContainer');
+            container.innerHTML = '';
+
+            suggestedBetsData.forEach((bet) => {
+                const isSelected = selectedMultiGames.includes(bet.id);
+                const card = document.createElement('div');
+                card.className = `bg-slate-900/80 border rounded-xl p-4 cursor-pointer transition flex items-center justify-between ${isSelected ? 'border-emerald-500 bg-emerald-950/30' : 'border-slate-700 hover:border-slate-500'}`;
+                card.onclick = () => toggleMultiGame(bet.id);
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold text-emerald-400">${bet.time}</span>
+                        <div class="text-sm font-bold text-white mt-0.5">${bet.game}</div>
+                        <div class="text-xs text-slate-400 mt-1">Featured Stat: ${bet.statType} (${bet.player})</div>
+                    </div>
+                    <div class="w-6 h-6 rounded-full border flex items-center justify-center ${isSelected ? 'bg-emerald-500 border-emerald-500 text-slate-950 font-bold' : 'border-slate-600 text-transparent'}">
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            updateMultiGameResult();
+        }
+
+        function toggleMultiGame(id) {
+            if (selectedMultiGames.includes(id)) {
+                selectedMultiGames = selectedMultiGames.filter(item => item !== id);
+            } else {
+                if (selectedMultiGames.length >= 2) {
+                    selectedMultiGames.shift(); // keep max 2 games
+                }
+                selectedMultiGames.push(id);
             }
+            renderMultiGameSelector();
+        }
+
+        function updateMultiGameResult() {
+            const resultContainer = document.getElementById('multiGameResult');
+            if (selectedMultiGames.length < 2) {
+                resultContainer.innerHTML = `<p class="text-slate-400 text-sm italic"><i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1"></i> Please select exactly 2 games above to generate your cross-match parlay slip (${selectedMultiGames.length}/2 selected).</p>`;
+                return;
+            }
+
+            const game1 = suggestedBetsData.find(b => b.id === selectedMultiGames[0]);
+            const game2 = suggestedBetsData.find(b => b.id === selectedMultiGames[1]);
+
+            resultContainer.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center bg-slate-800 p-3 rounded-xl border border-slate-700">
+                        <div>
+                            <span class="text-xs text-emerald-400 font-bold">Combined Cross-Match Bet</span>
+                            <div class="text-sm font-bold text-white">Estimated Combined Odds: <span class="text-emerald-400">11/4 (3.75)</span></div>
+                        </div>
+                        <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full border border-emerald-500/30 font-bold">Under 3/1 Cap</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-700/80">
+                            <span class="text-xs font-bold text-emerald-400 block mb-1">Leg 1 (${game1.game}):</span>
+                            <div class="text-xs text-slate-200 font-semibold">• ${game1.legs[0]}</div>
+                        </div>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-700/80">
+                            <span class="text-xs font-bold text-emerald-400 block mb-1">Leg 2 (${game2.game}):</span>
+                            <div class="text-xs text-slate-200 font-semibold">• ${game2.legs[0]}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderScheduleAndNews(dayFilter = 'ALL') {
+            const schedContainer = document.getElementById('scheduleContainer');
+            schedContainer.innerHTML = '';
+
+            const filteredSched = dayFilter === 'ALL' ? scheduleData : scheduleData.filter(g => g.day === dayFilter);
+
+            filteredSched.forEach(game => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-emerald-400">${game.time}</span>
+                            <span class="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300">${game.day}</span>
+                        </div>
+                        <div class="text-sm font-bold text-white mt-1">${game.away} @ ${game.home}</div>
+                        <div class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${game.venue}</div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                        <span>Status: Upcoming</span>
+                        <span class="text-emerald-400 font-semibold">Synced</span>
+                    </div>
+                `;
+                schedContainer.appendChild(card);
+            });
 
             const newsContainer = document.getElementById('sleeperNewsContainer');
             if (newsContainer.children.length === 0) {
@@ -384,6 +473,18 @@
                     newsContainer.appendChild(item);
                 });
             }
+        }
+
+        function filterDay(day) {
+            currentDayFilter = day;
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                if (btn.dataset.day === day) {
+                    btn.className = "day-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
+                } else {
+                    btn.className = "day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+                }
+            });
+            renderScheduleAndNews(day);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
