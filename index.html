@@ -50,8 +50,11 @@
                     <button onclick="switchTab('multigame')" id="tabBtn-multigame" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2">
                         <i class="fa-solid fa-layer-group"></i> Multi-Game Parlay
                     </button>
+                    <button onclick="switchTab('gamedays')" id="tabBtn-gamedays" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days"></i> Game Days & Intel
+                    </button>
                     <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days"></i> Schedule & News
+                        <i class="fa-solid fa-newspaper"></i> Schedule & News
                     </button>
                 </div>
             </div>
@@ -114,21 +117,52 @@
                 </div>
             </div>
 
-            <!-- ================= TAB 3: SCHEDULE & NEWS ================= -->
+            <!-- ================= TAB 3: GAME DAYS & DEDICATED INTEL ================= -->
+            <div id="tabContent-gamedays" class="hidden space-y-6">
+                <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 shadow-xl">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                        <div>
+                            <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Interactive Game Day Hub</span>
+                            <h2 class="text-2xl font-black text-white mt-1">Select Game Day & Matchup</h2>
+                            <p class="text-slate-300 text-sm mt-1">Click a day heading below to view games playing on that day, then click any game to instantly view its Vercel AI analytics and bet selections.</p>
+                        </div>
+
+                        <!-- Date Heading Filter Bar -->
+                        <div class="flex flex-wrap items-center bg-slate-900 rounded-xl p-1 border border-slate-700 gap-1" id="gameDayFilterBar">
+                            <button onclick="selectGameDay('Monday')" class="gameday-btn px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition" data-day="Monday">Monday</button>
+                            <button onclick="selectGameDay('Thursday')" class="gameday-btn px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Thursday">Thursday</button>
+                            <button onclick="selectGameDay('Sunday')" class="gameday-btn px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Sunday">Sunday</button>
+                        </div>
+                    </div>
+
+                    <!-- Matchups List for Selected Day -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8" id="dayMatchupsList">
+                        <!-- Populated via JS -->
+                    </div>
+
+                    <!-- Dedicated Game Analytics View -->
+                    <div id="gameAnalyticsView" class="border-t border-slate-700/80 pt-6">
+                        <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-6 md:p-8" id="selectedGameIntelContainer">
+                            <div class="text-center py-8 text-slate-400">
+                                <i class="fa-solid fa-hand-pointer text-3xl text-emerald-400 mb-2"></i>
+                                <p class="text-sm font-semibold">Select a game above to inspect analytics and bet legs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 4: SCHEDULE & NEWS ================= -->
             <div id="tabContent-schedule" class="hidden space-y-8">
-                <!-- Day-by-Day Filter Bar -->
+                <!-- Schedule Section -->
                 <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 shadow-xl">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                         <div>
                             <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Weekly Slate</span>
-                            <h2 class="text-xl font-black text-white mt-1">Match Schedule by Day</h2>
+                            <h2 class="text-xl font-black text-white mt-1">Full Match Schedule</h2>
                         </div>
-                        <!-- Day Bar Buttons -->
-                        <div class="flex flex-wrap items-center bg-slate-900 rounded-xl p-1 border border-slate-700 gap-1">
-                            <button onclick="filterDay('ALL')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition" data-day="ALL">All Days</button>
-                            <button onclick="filterDay('Thursday')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Thursday">Thursday</button>
-                            <button onclick="filterDay('Sunday')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Sunday">Sunday</button>
-                            <button onclick="filterDay('Monday')" class="day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-day="Monday">Monday</button>
+                        <div class="text-xs text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700">
+                            <i class="fa-solid fa-clock mr-1 text-emerald-400"></i> Auto-updates weekly
                         </div>
                     </div>
 
@@ -166,83 +200,22 @@
         const suggestedBetsData = [
             {
                 id: 1,
-                game: "Kansas City Chiefs vs. Las Vegas Raiders",
-                time: "Sun 18:00 GMT",
-                day: "Sunday",
-                venue: "Arrowhead Stadium",
+                game: "Los Angeles Chargers vs. Baltimore Ravens",
+                time: "Mon 20:15 EST",
+                day: "Monday",
+                venue: "M&T Bank Stadium",
                 statType: "QB",
-                player: "Patrick Mahomes",
+                player: "Lamar Jackson",
                 odds: "12/5",
-                intel: "Vercel passing projections show Mahomes clearing 235.5 passing yards in 4 of last 5 games.",
+                intel: "Vercel passing and rushing projections indicate Jackson clearing 240+ total yards against defensive pressure.",
                 legs: [
-                    "Patrick Mahomes Over 237.5 Passing Yards",
-                    "Isiah Pacheco Over 43.5 Rushing Yards",
-                    "Chiefs Team Total Over 23.5 Points"
+                    "Lamar Jackson Over 195.5 Passing Yards",
+                    "Derrick Henry Over 55.5 Rushing Yards",
+                    "Ravens Team Total Over 23.5 Points"
                 ]
             },
             {
                 id: 2,
-                game: "San Francisco 49ers vs. Seattle Seahawks",
-                time: "Sun 21:05 GMT",
-                day: "Sunday",
-                venue: "Levi's Stadium",
-                statType: "RB",
-                player: "Christian McCaffrey",
-                odds: "13/8",
-                intel: "Model projects 75+ scrimmage yards with high volume touch share over last 5 matches.",
-                legs: [
-                    "Christian McCaffrey Over 55.5 Rushing Yards",
-                    "Christian McCaffrey Over 25.5 Receiving Yards"
-                ]
-            },
-            {
-                id: 3,
-                game: "Buffalo Bills vs. Miami Dolphins",
-                time: "Sun 21:25 GMT",
-                day: "Sunday",
-                venue: "Highmark Stadium",
-                statType: "PTS",
-                player: "Josh Allen",
-                odds: "9/5",
-                intel: "High-scoring divisional history points to an over on overall game points and alternating scores.",
-                legs: [
-                    "Josh Allen Over 215.5 Passing Yards",
-                    "Total Game Points Over 44.5",
-                    "James Cook Over 35.5 Rushing Yards"
-                ]
-            },
-            {
-                id: 4,
-                game: "Baltimore Ravens vs. Cincinnati Bengals",
-                time: "Mon 01:20 GMT",
-                day: "Monday",
-                venue: "M&T Bank Stadium",
-                statType: "RB",
-                player: "Derrick Henry",
-                odds: "6/4",
-                intel: "Averaging 18.4 carries per game over past month with dominant rushing floor.",
-                legs: [
-                    "Derrick Henry Over 64.5 Rushing Yards",
-                    "Derrick Henry 1+ Alternate Rushing Touchdowns"
-                ]
-            },
-            {
-                id: 5,
-                game: "Philadelphia Eagles vs. Dallas Cowboys",
-                time: "Sun 18:00 GMT",
-                day: "Sunday",
-                venue: "Lincoln Financial Field",
-                statType: "QB",
-                player: "Jalen Hurts",
-                odds: "2/1",
-                intel: "Combined passing and rushing yardage floor exceeds 230 yards in recent fixtures.",
-                legs: [
-                    "Jalen Hurts Over 195.5 Passing Yards",
-                    "Saquon Barkley Over 55.5 Rushing Yards"
-                ]
-            },
-            {
-                id: 6,
                 game: "Los Angeles Rams vs. Minnesota Vikings",
                 time: "Thu 01:15 GMT",
                 day: "Thursday",
@@ -256,16 +229,78 @@
                     "Total Game Points Over 42.5",
                     "Justin Jefferson Over 55.5 Receiving Yards"
                 ]
+            },
+            {
+                id: 3,
+                game: "Kansas City Chiefs vs. Las Vegas Raiders",
+                time: "Sun 18:00 EST",
+                day: "Sunday",
+                venue: "Arrowhead Stadium",
+                statType: "QB",
+                player: "Patrick Mahomes",
+                odds: "12/5",
+                intel: "Vercel passing projections show Mahomes clearing 235.5 passing yards in 4 of last 5 games.",
+                legs: [
+                    "Patrick Mahomes Over 237.5 Passing Yards",
+                    "Isiah Pacheco Over 43.5 Rushing Yards",
+                    "Chiefs Team Total Over 23.5 Points"
+                ]
+            },
+            {
+                id: 4,
+                game: "San Francisco 49ers vs. Seattle Seahawks",
+                time: "Sun 21:05 EST",
+                day: "Sunday",
+                venue: "Levi's Stadium",
+                statType: "RB",
+                player: "Christian McCaffrey",
+                odds: "13/8",
+                intel: "Model projects 75+ scrimmage yards with high volume touch share over last 5 matches.",
+                legs: [
+                    "Christian McCaffrey Over 55.5 Rushing Yards",
+                    "Christian McCaffrey Over 25.5 Receiving Yards"
+                ]
+            },
+            {
+                id: 5,
+                game: "Buffalo Bills vs. Miami Dolphins",
+                time: "Sun 21:25 EST",
+                day: "Sunday",
+                venue: "Highmark Stadium",
+                statType: "PTS",
+                player: "Josh Allen",
+                odds: "9/5",
+                intel: "High-scoring divisional history points to an over on overall game points and alternating scores.",
+                legs: [
+                    "Josh Allen Over 215.5 Passing Yards",
+                    "Total Game Points Over 44.5",
+                    "James Cook Over 35.5 Rushing Yards"
+                ]
+            },
+            {
+                id: 6,
+                game: "Philadelphia Eagles vs. Dallas Cowboys",
+                time: "Sun 18:00 EST",
+                day: "Sunday",
+                venue: "Lincoln Financial Field",
+                statType: "QB",
+                player: "Jalen Hurts",
+                odds: "2/1",
+                intel: "Combined passing and rushing yardage floor exceeds 230 yards in recent fixtures.",
+                legs: [
+                    "Jalen Hurts Over 195.5 Passing Yards",
+                    "Saquon Barkley Over 55.5 Rushing Yards"
+                ]
             }
         ];
 
         const scheduleData = [
+            { home: "Baltimore Ravens", away: "Los Angeles Chargers", time: "Mon, 20:15 EST", day: "Monday", venue: "M&T Bank Stadium" },
             { home: "Los Angeles Rams", away: "Minnesota Vikings", time: "Thu, 01:15 GMT", day: "Thursday", venue: "SoFi Stadium" },
-            { home: "Kansas City Chiefs", away: "Las Vegas Raiders", time: "Sun, 18:00 GMT", day: "Sunday", venue: "Arrowhead Stadium" },
-            { home: "San Francisco 49ers", away: "Seattle Seahawks", time: "Sun, 21:05 GMT", day: "Sunday", venue: "Levi's Stadium" },
-            { home: "Buffalo Bills", away: "Miami Dolphins", time: "Sun, 21:25 GMT", day: "Sunday", venue: "Highmark Stadium" },
-            { home: "Philadelphia Eagles", away: "Dallas Cowboys", time: "Sun, 18:00 GMT", day: "Sunday", venue: "Linc Financial Field" },
-            { home: "Baltimore Ravens", away: "Cincinnati Bengals", time: "Mon, 01:20 GMT", day: "Monday", venue: "M&T Bank Stadium" }
+            { home: "Kansas City Chiefs", away: "Las Vegas Raiders", time: "Sun, 18:00 EST", day: "Sunday", venue: "Arrowhead Stadium" },
+            { home: "San Francisco 49ers", away: "Seattle Seahawks", time: "Sun, 21:05 EST", day: "Sunday", venue: "Levi's Stadium" },
+            { home: "Buffalo Bills", away: "Miami Dolphins", time: "Sun, 21:25 EST", day: "Sunday", venue: "Highmark Stadium" },
+            { home: "Philadelphia Eagles", away: "Dallas Cowboys", time: "Sun, 18:00 EST", day: "Sunday", venue: "Lincoln Financial Field" }
         ];
 
         const sleeperNewsData = [
@@ -276,24 +311,28 @@
         ];
 
         let currentStatFilter = 'ALL';
-        let currentDayFilter = 'ALL';
+        let currentGameDay = 'Monday';
         let selectedMultiGames = [];
 
         function switchTab(tab) {
             const betsTab = document.getElementById('tabContent-bets');
             const multiTab = document.getElementById('tabContent-multigame');
+            const gamedaysTab = document.getElementById('tabContent-gamedays');
             const schedTab = document.getElementById('tabContent-schedule');
             
             const btnBets = document.getElementById('tabBtn-bets');
             const btnMulti = document.getElementById('tabBtn-multigame');
+            const btnGameDays = document.getElementById('tabBtn-gamedays');
             const btnSched = document.getElementById('tabBtn-schedule');
 
             betsTab.classList.add('hidden');
             multiTab.classList.add('hidden');
+            gamedaysTab.classList.add('hidden');
             schedTab.classList.add('hidden');
 
             btnBets.className = "px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
             btnMulti.className = "px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
+            btnGameDays.className = "px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
             btnSched.className = "px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2";
 
             if (tab === 'bets') {
@@ -303,10 +342,14 @@
                 multiTab.classList.remove('hidden');
                 btnMulti.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2";
                 renderMultiGameSelector();
+            } else if (tab === 'gamedays') {
+                gamedaysTab.classList.remove('hidden');
+                btnGameDays.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2";
+                selectGameDay('Monday');
             } else {
                 schedTab.classList.remove('hidden');
                 btnSched.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2";
-                renderScheduleAndNews('ALL');
+                renderScheduleAndNews();
             }
         }
 
@@ -371,6 +414,96 @@
             renderBets(stat);
         }
 
+        function selectGameDay(day) {
+            currentGameDay = day;
+            document.querySelectorAll('.gameday-btn').forEach(btn => {
+                if (btn.dataset.day === day) {
+                    btn.className = "gameday-btn px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
+                } else {
+                    btn.className = "gameday-btn px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+                }
+            });
+
+            const listContainer = document.getElementById('dayMatchupsList');
+            listContainer.innerHTML = '';
+
+            const dayBets = suggestedBetsData.filter(b => b.day === day);
+
+            if (dayBets.length === 0) {
+                listContainer.innerHTML = `<p class="text-slate-400 text-sm italic col-span-3">No games scheduled for ${day}.</p>`;
+                document.getElementById('selectedGameIntelContainer').innerHTML = `
+                    <div class="text-center py-8 text-slate-400">
+                        <p class="text-sm">No games available for analytics on this day.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            dayBets.forEach((bet) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/90 border border-slate-700 hover:border-emerald-500 rounded-xl p-4 cursor-pointer transition flex flex-col justify-between";
+                card.onclick = () => showGameIntel(bet.id);
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold text-emerald-400">${bet.time}</span>
+                        <div class="text-sm font-bold text-white mt-1">${bet.game}</div>
+                        <div class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${bet.venue}</div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
+                        <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-bolt mr-1"></i> View Analytics</span>
+                        <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Odds: ${bet.odds}</span>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+
+            // Automatically select first game of that day
+            showGameIntel(dayBets[0].id);
+        }
+
+        function showGameIntel(betId) {
+            const bet = suggestedBetsData.find(b => b.id === betId);
+            if (!bet) return;
+
+            let legsHtml = '';
+            bet.legs.forEach((leg, lIdx) => {
+                legsHtml += `
+                    <div class="flex items-center justify-between bg-slate-900/60 p-3 rounded-xl border border-slate-700/60">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-emerald-950 text-emerald-400 text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 border border-emerald-800">${lIdx + 1}</span>
+                            <span class="text-sm font-semibold text-slate-200">${leg}</span>
+                        </div>
+                        <span class="text-xs text-slate-400 bg-slate-800 px-2 py-0.5 rounded">Prop Leg</span>
+                    </div>
+                `;
+            });
+
+            const container = document.getElementById('selectedGameIntelContainer');
+            container.innerHTML = `
+                <div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">${bet.time} &bull; ${bet.venue} (${bet.day})</span>
+                            <h3 class="text-xl font-black text-white mt-1">${bet.game}</h3>
+                        </div>
+                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs px-3 py-1.5 rounded-full font-bold">
+                            Target Odds: ${bet.odds}
+                        </span>
+                    </div>
+
+                    <div class="bg-slate-950/80 border-l-4 border-emerald-500 p-4 rounded-r-xl mb-6 text-xs text-slate-300 leading-relaxed">
+                        <span class="font-bold text-emerald-400 block mb-1"><i class="fa-solid fa-chart-line mr-1"></i> Vercel AI Data Intel (${bet.statType} - ${bet.player}):</span>
+                        ${bet.intel}
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Suggested Match Selections (${bet.legs.length} Parts):</div>
+                        ${legsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
         function renderMultiGameSelector() {
             const container = document.getElementById('gameSelectorContainer');
             container.innerHTML = '';
@@ -382,7 +515,7 @@
                 card.onclick = () => toggleMultiGame(bet.id);
                 card.innerHTML = `
                     <div>
-                        <span class="text-xs font-bold text-emerald-400">${bet.time}</span>
+                        <span class="text-xs font-bold text-emerald-400">${bet.time} (${bet.day})</span>
                         <div class="text-sm font-bold text-white mt-0.5">${bet.game}</div>
                         <div class="text-xs text-slate-400 mt-1">Featured Stat: ${bet.statType} (${bet.player})</div>
                     </div>
@@ -441,31 +574,29 @@
             `;
         }
 
-        function renderScheduleAndNews(dayFilter = 'ALL') {
+        function renderScheduleAndNews() {
             const schedContainer = document.getElementById('scheduleContainer');
-            schedContainer.innerHTML = '';
-
-            const filteredSched = dayFilter === 'ALL' ? scheduleData : scheduleData.filter(g => g.day === dayFilter);
-
-            filteredSched.forEach(game => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between";
-                card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs font-bold text-emerald-400">${game.time}</span>
-                            <span class="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300">${game.day}</span>
+            if (schedContainer.children.length === 0) {
+                scheduleData.forEach(game => {
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between";
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-emerald-400">${game.time}</span>
+                                <span class="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300">${game.day}</span>
+                            </div>
+                            <div class="text-sm font-bold text-white mt-1">${game.away} @ ${game.home}</div>
+                            <div class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${game.venue}</div>
                         </div>
-                        <div class="text-sm font-bold text-white mt-1">${game.away} @ ${game.home}</div>
-                        <div class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${game.venue}</div>
-                    </div>
-                    <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
-                        <span>Status: Upcoming</span>
-                        <span class="text-emerald-400 font-semibold">Synced</span>
-                    </div>
-                `;
-                schedContainer.appendChild(card);
-            });
+                        <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                            <span>Status: Upcoming</span>
+                            <span class="text-emerald-400 font-semibold">Synced</span>
+                        </div>
+                    `;
+                    schedContainer.appendChild(card);
+                });
+            }
 
             const newsContainer = document.getElementById('sleeperNewsContainer');
             if (newsContainer.children.length === 0) {
@@ -486,20 +617,8 @@
             }
         }
 
-        function filterDay(day) {
-            currentDayFilter = day;
-            document.querySelectorAll('.day-btn').forEach(btn => {
-                if (btn.dataset.day === day) {
-                    btn.className = "day-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
-                } else {
-                    btn.className = "day-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
-                }
-            });
-            renderScheduleAndNews(day);
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
-            renderBets('ALL');
+            selectGameDay('Monday');
         });
     </script>
 </body>
