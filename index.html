@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFL Suggested Bets & Intel Hub (UK Edition)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+tailwind.config = { theme: { extend: { colors: { nflnavy: { DEFAULT: '#0B162A', dark: '#040B16', card: '#142238', accent: '#00B140' } } } } }
+</script>
+</head>
+<body class="bg-nflnavy-dark text-slate-100 min-h-screen font-sans flex flex-col justify-between">
+<div>
+<header class="bg-nflnavy border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div class="flex items-center space-x-3">
+      <div class="bg-emerald-500 text-slate-950 p-2.5 rounded-xl font-black text-xl shadow-lg"><i class="fa-solid fa-football"></i></div>
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2 flex-wrap">NFL Suggested Bets <span id="nflWeekBadge" class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/35">UK Time (GMT/BST)</span></h1>
+        <p class="text-xs text-slate-400" id="lastUpdated">Loading live data...</p>
+      </div>
+    </div>
+    <div class="flex items-center bg-slate-900/90 rounded-xl p-1 border border-slate-700 flex-wrap gap-1">
+      <button onclick="switchTab('bets')" id="tabBtn-bets" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Single Game Bets</button>
+      <button onclick="switchTab('multigame')" id="tabBtn-multigame" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-layer-group"></i> Multi-Game Parlay</button>
+      <button onclick="switchTab('gamedays')" id="tabBtn-gamedays" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-calendar-days"></i> Game Days & Intel</button>
+      <button onclick="switchTab('schedule')" id="tabBtn-schedule" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-newspaper"></i> Schedule & Live News</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+  <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-xs text-amber-200/90 flex items-start gap-3 shadow-md">
+    <i class="fa-solid fa-triangle-exclamation text-amber-400 text-base mt-0.5 shrink-0"></i>
+    <div class="leading-relaxed"><span class="font-bold text-amber-300 block mb-0.5">Responsible Gambling</span>
+    Fixtures, kick-off times and betting lines are pulled live. Suggested combos are built from those lines with simple rules, and odds shown are estimates, so always check the price with your bookmaker. No tip is guaranteed. Please gamble responsibly (18+). BeGambleAware.org</div>
+  </div>
+
+  <div id="statusBanner" class="hidden"></div>
+
+  <!-- TAB 1 -->
+  <div id="tabContent-bets" class="space-y-6">
+    <div class="rounded-2xl border border-slate-700/80 shadow-2xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-nflnavy-dark to-nflnavy">
+      <div class="max-w-2xl">
+        <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800">Live Lines Engine</span>
+        <h2 class="text-2xl md:text-3xl font-black text-white mt-2">Single Game Multi-Part Intel</h2>
+        <p class="text-slate-300 text-sm mt-2 leading-relaxed">Combinations (2-3 legs) built from this week's real upcoming games and current spreads and totals, kept under 3/1 estimated odds, in UK kick-off times.</p>
+      </div>
+      <div class="flex flex-wrap items-center bg-slate-900/90 rounded-xl p-1 border border-slate-700 gap-1">
+        <button onclick="filterStat('ALL')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white transition" data-stat="ALL">All</button>
+        <button onclick="filterStat('ML')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-stat="ML">Favourites</button>
+        <button onclick="filterStat('SPREAD')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-stat="SPREAD">Safety Net</button>
+        <button onclick="filterStat('TOT')" class="stat-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition" data-stat="TOT">Game Points</button>
+      </div>
+    </div>
+    <div id="betsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div id="tabContent-multigame" class="hidden space-y-6">
+    <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 md:p-8 shadow-xl">
+      <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Cross-Game Builder</span>
+      <h2 class="text-2xl font-black text-white mt-1">Combine 2 Games Into 1 Bet</h2>
+      <p class="text-slate-300 text-sm mt-1 mb-6">Select 2 separate matchups to build a cross-game bet using the first leg from each suggestion.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6" id="gameSelectorContainer"></div>
+      <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-6">
+        <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-calculator text-emerald-400"></i> Generated 2-Game Cross Bet Slip</h3>
+        <div id="multiGameResult" class="space-y-4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div id="tabContent-gamedays" class="hidden space-y-6">
+    <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 shadow-xl">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <div>
+          <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Interactive Game Day Hub</span>
+          <h2 class="text-2xl font-black text-white mt-1">Select Game Day & Matchup</h2>
+          <p class="text-slate-300 text-sm mt-1">Pick a day (UK time), then a game to see its lines and suggested selections.</p>
+        </div>
+        <div class="flex flex-wrap items-center bg-slate-900 rounded-xl p-1 border border-slate-700 gap-1" id="gameDayFilterBar"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8" id="dayMatchupsList"></div>
+      <div class="border-t border-slate-700/80 pt-6">
+        <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-6 md:p-8" id="selectedGameIntelContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4 -->
+  <div id="tabContent-schedule" class="hidden space-y-8">
+    <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 shadow-xl">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div>
+          <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Weekly Slate</span>
+          <h2 class="text-xl font-black text-white mt-1">Full Match Schedule (UK Time)</h2>
+        </div>
+        <div class="text-xs text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700"><i class="fa-solid fa-clock mr-1 text-emerald-400"></i> Auto-refreshes every 5 minutes</div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="scheduleContainer"></div>
+    </div>
+    <div class="bg-nflnavy-card border border-slate-700/80 rounded-2xl p-6 shadow-xl">
+      <div class="mb-6">
+        <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Live Feed</span>
+        <h2 class="text-xl font-black text-white mt-1"><i class="fa-solid fa-newspaper text-emerald-400 mr-2"></i> Latest NFL Headlines</h2>
+      </div>
+      <div class="space-y-4" id="newsContainer"><div class="text-center py-6 text-slate-400 text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Loading news...</div></div>
+    </div>
+  </div>
+</main>
+</div>
+<footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500 mt-20">
+  <p>Built for UK NFL fans (GMT/BST). Fixtures, lines and news from ESPN's public feed; week number from Sleeper.</p>
+</footer>
+
+<script>
+const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl';
+const REFRESH_MS = 5 * 60 * 1000;
+
+let games = [];          // all real games in window
+let bets = [];           // suggestions (upcoming games with lines only)
+let currentStatFilter = 'ALL';
+let currentGameDay = null;
+let currentTab = 'bets';
+let selectedMulti = [];
+
+/* ---------- helpers ---------- */
+const ukFmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+const ukDay = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'long' });
+const fmtUK = d => ukFmt.format(new Date(d));
+const dayUK = d => ukDay.format(new Date(d));
+const ymd = d => d.toISOString().slice(0, 10).replace(/-/g, '');
+const halfLine = x => Math.floor(x) + 0.5;
+const amToDec = a => a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a);
+
+function toFrac(dec) {
+  const n = dec - 1;
+  let best = [Math.round(n), 1], err = Infinity;
+  for (const den of [1, 2, 4, 5, 8, 10, 20]) {
+    const num = Math.round(n * den);
+    if (num < 1) continue;
+    const e = Math.abs(num / den - n);
+    if (e < err - 1e-9) { err = e; best = [num, den]; }
+  }
+  const g = (a, b) => b ? g(b, a % b) : a;
+  const d = g(best[0], best[1]);
+  return `${best[0] / d}/${best[1] / d}`;
+}
+
+/* ---------- data loading ---------- */
+async function fetchJson(url) {
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+let sleeperState = null;
+async function getSleeperState() {
+  if (sleeperState) return sleeperState;
+  try { sleeperState = await fetchJson('https://api.sleeper.app/v1/state/nfl'); } catch (e) { /* fall back below */ }
+  return sleeperState;
+}
+
+async function loadGames() {
+  const st = await getSleeperState();
+  const start = new Date(); start.setDate(start.getDate() - 1);
+  const end = new Date(); end.setDate(end.getDate() + 8);
+  const urls = [];
+  if (st && st.week && st.season) {
+    const w = Number(st.week), yr = st.season;
+    urls.push(`${ESPN}/scoreboard?limit=1000&dates=${yr}&seasontype=2&week=${w}`);
+    urls.push(`${ESPN}/scoreboard?limit=1000&dates=${yr}&seasontype=2&week=${w + 1}`);
+  }
+  urls.push(`${ESPN}/scoreboard?limit=1000&dates=${ymd(start)}-${ymd(end)}`);
+  urls.push(`${ESPN}/scoreboard?limit=1000`);
+
+  const byId = new Map();
+  let lastErr = null;
+  for (const u of urls) {
+    try {
+      const data = await fetchJson(u);
+      (data.events || []).forEach(e => { try { const g = parseEvent(e); if (g) byId.set(g.id, g); } catch (x) { console.warn('skip event', x); } });
+      // stop as soon as we have games still to be played
+      if ([...byId.values()].some(g => g.state === 'pre')) break;
+    } catch (e) { lastErr = e; console.warn('Feed failed', u, e); }
+  }
+  const list = [...byId.values()];
+  if (!list.length) throw lastErr || new Error('Feed returned no games');
+  return list.sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
+}
+
+function parseEvent(ev) {
+  const comp = ev.competitions && ev.competitions[0];
+  if (!comp) return null;
+  const home = comp.competitors.find(c => c.homeAway === 'home');
+  const away = comp.competitors.find(c => c.homeAway === 'away');
+  if (!home || !away) return null;
+  const o = comp.odds && comp.odds[0];
+  let line = null;
+  if (o && o.overUnder) {
+    const hFav = o.homeTeamOdds && o.homeTeamOdds.favorite;
+    const aFav = o.awayTeamOdds && o.awayTeamOdds.favorite;
+    const spread = Math.abs(Number(o.spread));
+    if ((hFav || aFav) && !isNaN(spread)) {
+      const fav = hFav ? 'home' : 'away';
+      const favML = o[fav + 'TeamOdds'] && o[fav + 'TeamOdds'].moneyLine;
+      line = { total: Number(o.overUnder), spread, fav, favML: typeof favML === 'number' ? favML : null, provider: o.provider && o.provider.name };
+    }
+  }
+  const st = ev.status && ev.status.type;
+  return {
+    id: ev.id,
+    home: home.team.displayName, away: away.team.displayName,
+    homeLogo: home.team.logo, awayLogo: away.team.logo,
+    homeScore: home.score, awayScore: away.score,
+    rawDate: ev.date,
+    day: dayUK(ev.date),
+    venue: comp.venue ? comp.venue.fullName : 'TBC',
+    state: st ? st.state : 'pre',       // pre | in | post
+    statusText: st ? st.shortDetail : '',
+    line
+  };
+}
+
+/* ---------- bet building (from real lines) ---------- */
+function buildBets() {
+  bets = [];
+  games.filter(g => g.state === 'pre' && g.line).forEach(g => {
+    const L = g.line;
+    const favName = L.fav === 'home' ? g.home : g.away;
+    const dogName = L.fav === 'home' ? g.away : g.home;
+    const favImplied = (L.total + L.spread) / 2;
+    const dogImplied = (L.total - L.spread) / 2;
+    const mlDec = L.favML ? amToDec(L.favML) : 1.6;
+    const lineInfo = `${L.provider || 'Bookmaker'} line: ${favName} -${L.spread}, total ${L.total}. Implied scores ~${favName.split(' ').pop()} ${favImplied.toFixed(1)} / ${dogName.split(' ').pop()} ${dogImplied.toFixed(1)}.`;
+
+    const combos = [
+      { type: 'ML', label: 'Favourites',
+        intel: `${favName} are the market favourites. ${lineInfo}`,
+        legs: [[`${favName} to Win`, mlDec], [`${favName} Team Total Over ${halfLine(favImplied - 3)} Points`, 1.5]] },
+      { type: 'SPREAD', label: 'Safety Net',
+        intel: `Built to give room for error: the underdog on a cushioned line plus a higher game total. ${lineInfo}`,
+        legs: [[`${dogName} +${halfLine(L.spread + 3)} Spread`, 1.4], [`Total Game Points Under ${halfLine(L.total + 4)}`, 1.4]] },
+      { type: 'TOT', label: 'Game Points',
+        intel: `Points-based angle using a lowered total, so the game doesn't need to be a shootout. ${lineInfo}`,
+        legs: [[`Total Game Points Over ${halfLine(L.total - 4)}`, 1.4], [`${favName} Team Total Over ${halfLine(favImplied - 4)} Points`, 1.45]] }
+    ];
+
+    combos.forEach((c, i) => {
+      let dec = c.legs.reduce((a, l) => a * l[1], 1);
+      // keep under 3/1 (4.0 decimal): drop last leg if over
+      while (dec >= 4 && c.legs.length > 1) { c.legs.pop(); dec = c.legs.reduce((a, l) => a * l[1], 1); }
+      bets.push({ id: g.id + '-' + i, gameId: g.id, game: g, statType: c.type, typeLabel: c.label, intel: c.intel, legs: c.legs.map(l => l[0]), dec, odds: toFrac(dec) });
+    });
+  });
+}
+
+/* ---------- UI ---------- */
+function setBanner(msg, kind) {
+  const b = document.getElementById('statusBanner');
+  if (!msg) { b.classList.add('hidden'); return; }
+  b.className = `rounded-2xl p-4 text-sm border ${kind === 'err' ? 'bg-red-500/10 border-red-500/30 text-red-200' : 'bg-slate-800 border-slate-700 text-slate-300'}`;
+  b.innerHTML = msg;
+}
+
+function teamLine(g, size = 'w-5 h-5') {
+  return `<img src="${g.awayLogo}" class="${size} object-contain" alt=""> ${g.away} <span class="text-slate-500">@</span> <img src="${g.homeLogo}" class="${size} object-contain" alt=""> ${g.home}`;
+}
+
+function legsHtml(b) {
+  return b.legs.map((leg, i) => `
+    <div class="flex items-center justify-between bg-slate-900/60 p-3 rounded-xl border border-slate-700/60">
+      <div class="flex items-center gap-3">
+        <span class="bg-emerald-950 text-emerald-400 text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 border border-emerald-800">${i + 1}</span>
+        <span class="text-sm font-semibold text-slate-200">${leg}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderBets() {
+  const c = document.getElementById('betsContainer');
+  c.innerHTML = '';
+  const list = currentStatFilter === 'ALL' ? bets : bets.filter(b => b.statType === currentStatFilter);
+  if (!list.length) {
+    c.innerHTML = `<p class="text-slate-400 text-sm italic col-span-full">No upcoming games with posted lines right now. Lines usually appear a few days before kick-off and this page will pick them up automatically.</p>`;
+    return;
+  }
+  list.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'bg-nflnavy-card border border-slate-700 rounded-2xl p-6 shadow-xl hover:border-emerald-500/50 transition duration-300';
+    el.innerHTML = `
+      <div class="flex justify-between items-start gap-4 mb-4">
+        <div>
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">${fmtUK(b.game.rawDate)} &bull; ${b.game.venue}</span>
+          <h3 class="text-lg font-bold text-white mt-1 flex items-center gap-1.5 flex-wrap">${teamLine(b.game, 'w-6 h-6')}</h3>
+        </div>
+        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-1 rounded-full font-bold shrink-0">Est. ${b.odds}</span>
+      </div>
+      <div class="bg-slate-900/80 border-l-4 border-emerald-500 p-3.5 rounded-r-xl mb-5 text-xs text-slate-300 leading-relaxed">
+        <span class="font-bold text-emerald-400 block mb-1"><i class="fa-solid fa-chart-line mr-1"></i> ${b.typeLabel}</span>${b.intel}
+      </div>
+      <div class="space-y-2">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Suggested Selections (${b.legs.length} Parts):</div>
+        ${legsHtml(b)}
+      </div>`;
+    c.appendChild(el);
+  });
+}
+
+function filterStat(stat) {
+  currentStatFilter = stat;
+  document.querySelectorAll('.stat-btn').forEach(btn => {
+    btn.className = 'stat-btn px-3 py-2 rounded-lg text-xs font-bold transition ' + (btn.dataset.stat === stat ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white');
+  });
+  renderBets();
+}
+
+/* multi-game: one game per fixture, first leg of its "Favourites" combo */
+function uniqueBetGames() {
+  return bets.filter(b => b.statType === 'ML');
+}
+
+function renderMultiGameSelector() {
+  const c = document.getElementById('gameSelectorContainer');
+  c.innerHTML = '';
+  const list = uniqueBetGames();
+  selectedMulti = selectedMulti.filter(id => list.some(b => b.gameId === id));
+  if (!list.length) c.innerHTML = `<p class="text-slate-400 text-sm italic col-span-full">No upcoming games with lines available yet.</p>`;
+  list.forEach(b => {
+    const sel = selectedMulti.includes(b.gameId);
+    const el = document.createElement('div');
+    el.className = `bg-slate-900/80 border rounded-xl p-4 cursor-pointer transition flex items-center justify-between ${sel ? 'border-emerald-500 bg-emerald-950/30' : 'border-slate-700 hover:border-slate-500'}`;
+    el.onclick = () => { toggleMulti(b.gameId); };
+    el.innerHTML = `
+      <div>
+        <span class="text-xs font-bold text-emerald-400">${fmtUK(b.game.rawDate)}</span>
+        <div class="text-sm font-bold text-white mt-1 flex items-center gap-1.5 flex-wrap">${teamLine(b.game)}</div>
+      </div>
+      <div class="w-6 h-6 rounded-full border flex items-center justify-center ${sel ? 'bg-emerald-500 border-emerald-500 text-slate-950' : 'border-slate-600 text-transparent'}"><i class="fa-solid fa-check text-xs"></i></div>`;
+    c.appendChild(el);
+  });
+  updateMultiResult();
+}
+
+function toggleMulti(id) {
+  if (selectedMulti.includes(id)) selectedMulti = selectedMulti.filter(x => x !== id);
+  else { if (selectedMulti.length >= 2) selectedMulti.shift(); selectedMulti.push(id); }
+  renderMultiGameSelector();
+}
+
+function updateMultiResult() {
+  const r = document.getElementById('multiGameResult');
+  if (selectedMulti.length < 2) {
+    r.innerHTML = `<p class="text-slate-400 text-sm italic">Select 2 games above (${selectedMulti.length}/2 selected).</p>`;
+    return;
+  }
+  const picks = selectedMulti.map(id => bets.find(b => b.gameId === id && b.statType === 'ML'));
+  const legs = picks.map(p => ({ p, name: p.legs[0], dec: p.dec / (p.legs.length > 1 ? 1.5 : 1) }));
+  // legs[0] decimal = favourite moneyline; recompute directly
+  const decs = picks.map(p => p.game.line.favML ? amToDec(p.game.line.favML) : 1.6);
+  const total = decs[0] * decs[1];
+  const cap = total < 4;
+  r.innerHTML = `
+    <div class="flex justify-between items-center bg-slate-800 p-3 rounded-xl border border-slate-700">
+      <div>
+        <span class="text-xs text-emerald-400 font-bold">Combined Cross-Match Bet</span>
+        <div class="text-sm font-bold text-white">Estimated Combined Odds: <span class="text-emerald-400">${toFrac(total)} (${total.toFixed(2)})</span></div>
+      </div>
+      <span class="text-xs px-2.5 py-1 rounded-full border font-bold ${cap ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35' : 'bg-amber-500/20 text-amber-300 border-amber-500/35'}">${cap ? 'Under 3/1' : 'Over 3/1'}</span>
+    </div>
+    ${legs.map((l, i) => `
+      <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-700/80">
+        <span class="text-xs font-bold text-emerald-400 block mb-1">Leg ${i + 1} (${l.p.game.away} @ ${l.p.game.home}):</span>
+        <div class="text-xs text-slate-200 font-semibold">&bull; ${l.name}</div>
+      </div>`).join('')}`;
+}
+
+/* game days */
+function renderDayButtons() {
+  const bar = document.getElementById('gameDayFilterBar');
+  const upcoming = games.filter(g => g.state !== 'post');
+  const src = upcoming.length ? upcoming : games;
+  const days = [...new Set(src.map(g => g.day))];
+  if (!days.includes(currentGameDay)) currentGameDay = days[0] || null;
+  bar.innerHTML = days.map(d => `<button onclick="selectGameDay('${d}')" class="gameday-btn px-3.5 py-2 rounded-lg text-xs font-bold transition ${d === currentGameDay ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}">${d}</button>`).join('');
+}
+
+function selectGameDay(day) {
+  currentGameDay = day;
+  renderDayButtons();
+  const list = document.getElementById('dayMatchupsList');
+  const panel = document.getElementById('selectedGameIntelContainer');
+  const src = games.filter(g => g.state !== 'post');
+  const dayGames = (src.length ? src : games).filter(g => g.day === day);
+  list.innerHTML = '';
+  if (!dayGames.length) {
+    list.innerHTML = `<p class="text-slate-400 text-sm italic col-span-3">No games found.</p>`;
+    panel.innerHTML = `<div class="text-center py-8 text-slate-400 text-sm">No games to show yet.</div>`;
+    return;
+  }
+  dayGames.forEach(g => {
+    const el = document.createElement('div');
+    el.className = 'bg-slate-900/90 border border-slate-700 hover:border-emerald-500 rounded-xl p-4 cursor-pointer transition';
+    el.onclick = () => showGameIntel(g.id);
+    el.innerHTML = `
+      <span class="text-xs font-bold text-emerald-400">${fmtUK(g.rawDate)}</span>
+      <div class="text-sm font-bold text-white mt-1 flex items-center gap-1.5 flex-wrap">${teamLine(g)}</div>
+      <div class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${g.venue}</div>`;
+    list.appendChild(el);
+  });
+  showGameIntel(dayGames[0].id);
+}
+
+function showGameIntel(gameId) {
+  const g = games.find(x => x.id === gameId);
+  const panel = document.getElementById('selectedGameIntelContainer');
+  if (!g) return;
+  const gb = bets.filter(b => b.gameId === gameId);
+  const lineTxt = g.line
+    ? `${(g.line.fav === 'home' ? g.home : g.away)} -${g.line.spread} &bull; Total ${g.line.total}${g.line.favML ? ` &bull; Fav moneyline ${g.line.favML > 0 ? '+' : ''}${g.line.favML}` : ''}`
+    : 'Lines not posted yet';
+  panel.innerHTML = `
+    <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">${fmtUK(g.rawDate)} &bull; ${g.venue}</span>
+    <h3 class="text-xl font-black text-white mt-1 flex items-center gap-2 flex-wrap">${teamLine(g, 'w-6 h-6')}</h3>
+    <div class="bg-slate-950/80 border-l-4 border-emerald-500 p-4 rounded-r-xl my-5 text-xs text-slate-300 leading-relaxed">
+      <span class="font-bold text-emerald-400 block mb-1"><i class="fa-solid fa-chart-line mr-1"></i> Current Lines</span>${lineTxt}
+    </div>
+    ${gb.length ? gb.map(b => `
+      <div class="mb-5">
+        <div class="flex justify-between items-center mb-2">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">${b.typeLabel}</div>
+          <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full font-bold">Est. ${b.odds}</span>
+        </div>
+        <div class="space-y-2">${legsHtml(b)}</div>
+      </div>`).join('') : `<p class="text-slate-400 text-sm italic">No suggestions for this game (it has either started or lines aren't posted).</p>`}`;
+}
+
+/* schedule */
+function renderSchedule() {
+  const c = document.getElementById('scheduleContainer');
+  c.innerHTML = '';
+  if (!games.length) { c.innerHTML = `<p class="text-slate-400 text-sm italic col-span-full">No games found.</p>`; return; }
+  [...games].sort((a, b) => (a.state === 'post') - (b.state === 'post') || new Date(a.rawDate) - new Date(b.rawDate)).forEach(g => {
+    const status = g.state === 'in' ? `<span class="text-red-400 font-semibold">LIVE &bull; ${g.statusText} &bull; ${g.awayScore}-${g.homeScore}</span>`
+      : g.state === 'post' ? `<span>Final &bull; ${g.awayScore}-${g.homeScore}</span>` : `<span>Upcoming</span>`;
+    const el = document.createElement('div');
+    el.className = 'bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between';
+    el.innerHTML = `
+      <div>
+        <div class="flex justify-between items-center mb-1"><span class="text-xs font-bold text-emerald-400">${fmtUK(g.rawDate)}</span><span class="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300">${g.day}</span></div>
+        <div class="text-sm font-bold text-white mt-1 flex items-center gap-1.5 flex-wrap">${teamLine(g)}</div>
+        <div class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> ${g.venue}</div>
+      </div>
+      <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-400">${status}</div>`;
+    c.appendChild(el);
+  });
+}
+
+/* news */
+async function loadNews() {
+  const c = document.getElementById('newsContainer');
+  try {
+    const res = await fetch(`${ESPN}/news?limit=8`);
+    const data = await res.json();
+    const arts = data.articles || [];
+    if (!arts.length) throw new Error('none');
+    c.innerHTML = arts.map(a => `
+      <a href="${a.links && a.links.web ? a.links.web.href : '#'}" target="_blank" rel="noopener" class="block bg-slate-900/90 border border-slate-700/60 hover:border-emerald-500/50 rounded-xl p-4 transition">
+        <h4 class="text-sm font-semibold text-slate-100">${a.headline}</h4>
+        ${a.description ? `<p class="text-xs text-slate-400 mt-1">${a.description}</p>` : ''}
+      </a>`).join('');
+  } catch (e) {
+    c.innerHTML = `<p class="text-slate-400 text-sm italic">Couldn't load headlines right now. They'll retry automatically.</p>`;
+  }
+}
+
+async function loadWeekBadge() {
+  try {
+    const r = await fetch('https://api.sleeper.app/v1/state/nfl');
+    const d = await r.json();
+    if (d && d.week) document.getElementById('nflWeekBadge').innerText = `UK Time • Season ${d.season} Week ${d.week}`;
+  } catch (e) { /* badge keeps default */ }
+}
+
+/* tabs */
+function switchTab(tab) {
+  currentTab = tab;
+  ['bets', 'multigame', 'gamedays', 'schedule'].forEach(t => {
+    document.getElementById('tabContent-' + t).classList.toggle('hidden', t !== tab);
+    document.getElementById('tabBtn-' + t).className = 'px-3.5 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 ' + (t === tab ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white');
+  });
+  renderCurrent();
+}
+
+function renderCurrent() {
+  if (currentTab === 'bets') renderBets();
+  if (currentTab === 'multigame') renderMultiGameSelector();
+  if (currentTab === 'gamedays') selectGameDay(currentGameDay);
+  if (currentTab === 'schedule') renderSchedule();
+}
+
+/* refresh loop */
+async function refresh() {
+  try {
+    games = await loadGames();
+    buildBets();
+    setBanner(games.length ? '' : 'No NFL games found in the next 8 days (this can happen in the off-season or bye periods).', 'info');
+    document.getElementById('lastUpdated').innerText = 'Live data • updated ' + new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(new Date()) + ' UK';
+    renderDayButtons();
+    renderCurrent();
+  } catch (e) {
+    console.error(e);
+    setBanner('Couldn\'t load the live NFL data feed (' + (e && e.message ? e.message : e) + '). Retrying in 5 minutes. Tap Refresh to try now.<br><button onclick="refresh()" class="mt-2 px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold">Refresh</button>', 'err');
+    document.getElementById('lastUpdated').innerText = 'Live feed unavailable';
+  }
+  loadNews();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  loadWeekBadge();
+  refresh();
+  setInterval(refresh, REFRESH_MS);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+});
+</script>
+</body>
+</html>
