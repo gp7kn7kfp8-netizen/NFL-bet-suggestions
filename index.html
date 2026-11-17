@@ -78,7 +78,7 @@
                     <div class="z-10 max-w-2xl">
                         <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800">Advanced Stat Engine</span>
                         <h2 class="text-2xl md:text-3xl font-black text-white mt-2">Single Game Multi-Part Intel</h2>
-                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">Combinations (2-4 legs) built from current week matchups, player metrics, and overall game points under 3/1 odds, localized for UK kickoff times.</p>
+                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">Combinations (2-4 legs) built from current game week matchups, player metrics, and overall game points under 3/1 odds, localized for UK kickoff times.</p>
                     </div>
                     
                     <div class="z-10 flex flex-wrap items-center bg-slate-900/90 rounded-xl p-1 border border-slate-700 gap-1">
@@ -242,105 +242,132 @@
         const suggestedBetsData = [
             {
                 id: 1,
-                awayTeam: "Pittsburgh Steelers",
-                homeTeam: "Cleveland Browns",
-                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/hx_l1sL_i9bXW0o3A6Q0og_120x120.png",
-                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/8yqZoGy4qCMuPcf3DpMhWQ_120x120.png",
+                awayTeam: "Indianapolis Colts",
+                homeTeam: "Houston Texans",
+                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/AGEeRWtwE37msOgDD99Kcw_120x120.png",
+                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/73eNOlor0qBomqGY8Rv7sQ_120x120.png",
                 rawDate: "2026-11-20T01:15:00Z",
                 day: "Thursday",
-                venue: "Huntington Bank Field",
+                venue: "Reliant Stadium",
                 statType: "QB",
-                player: "Russell Wilson",
+                player: "Texans Passing Attack",
                 odds: "12/5",
-                intel: "Model projects efficient passing volume against divisional defensive looks.",
+                intel: "Divisional AFC South showdown highlighting high offensive snap counts on Thursday Night Football.",
                 legs: [
-                    "Russell Wilson Over 195.5 Passing Yards",
-                    "Najee Harris Over 55.5 Rushing Yards",
-                    "Steelers Team Total Over 20.5 Points"
+                    "Texans Team Total Over 22.5 Points",
+                    "Total Game Points Over 43.5",
+                    "Colts Over 1.5 Passing TDs"
                 ]
             },
             {
                 id: 2,
-                awayTeam: "Kansas City Chiefs",
-                homeTeam: "Carolina Panthers",
-                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/UVLlczXJQ1wxxKMT9ShJQw_120x120.png",
-                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/h161_2sO0B3g5b0i5Qf06g_120x120.png",
-                rawDate: "2026-11-22T18:00:00Z",
-                day: "Sunday",
-                venue: "Bank of America Stadium",
-                statType: "QB",
-                player: "Patrick Mahomes",
-                odds: "11/5",
-                intel: "Chiefs offense aims to control tempo with high-percentage intermediate passes.",
-                legs: [
-                    "Patrick Mahomes Over 235.5 Passing Yards",
-                    "Travis Kelce Over 45.5 Receiving Yards",
-                    "Chiefs Team Total Over 24.5 Points"
-                ]
-            },
-            {
-                id: 3,
-                awayTeam: "Minnesota Vikings",
+                awayTeam: "New Orleans Saints",
                 homeTeam: "Chicago Bears",
-                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/8yqZoGy4qCMuPcf3DpMhWQ_120x120.png",
-                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/fQRCFlwKEORFAvo-Tix0dg_120x120.png",
+                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/VXbaB02tR54ZSCUrh13R6Q_120x120.png",
+                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/iKk6JE8KwrY-hVGy2W3_9Q_120x120.png",
                 rawDate: "2026-11-22T18:00:00Z",
                 day: "Sunday",
                 venue: "Soldier Field",
                 statType: "PTS",
-                player: "Sam Darnold",
-                odds: "2/1",
-                intel: "Divisional matchup points toward active passing attacks on both sides.",
+                player: "Bears Offense",
+                odds: "11/5",
+                intel: "Chicago maintains a strong home field advantage with steady red-zone conversion efficiency.",
                 legs: [
-                    "Sam Darnold Over 215.5 Passing Yards",
-                    "Justin Jefferson Over 65.5 Receiving Yards",
-                    "Total Game Points Over 41.5"
+                    "Chicago Bears -3.5 Spread",
+                    "Total Game Points Over 40.5",
+                    "Saints Team Total Under 20.5"
+                ]
+            },
+            {
+                id: 3,
+                awayTeam: "Arizona Cardinals",
+                homeTeam: "Kansas City Chiefs",
+                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/VKf35yOV-6xMtJMrQ2bGuA_120x120.png",
+                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/UVLlczXJQ1wxxKMT9ShJQw_120x120.png",
+                rawDate: "2026-11-22T18:00:00Z",
+                day: "Sunday",
+                venue: "Arrowhead Stadium",
+                statType: "QB",
+                player: "Patrick Mahomes",
+                odds: "12/5",
+                intel: "Mahomes and the Chiefs passing volume projection points to clean intermediate completions.",
+                legs: [
+                    "Patrick Mahomes Over 237.5 Passing Yards",
+                    "Chiefs Team Total Over 26.5 Points",
+                    "Travis Kelce Over 45.5 Receiving Yards"
                 ]
             },
             {
                 id: 4,
-                awayTeam: "Green Bay Packers",
-                homeTeam: "San Francisco 49ers",
-                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/c_wV_W_6w0l357Yj8g_h5Q_120x120.png",
-                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/Sc-eM0054yQ9Pv4_HmNe0Q_120x120.png",
-                rawDate: "2026-11-22T21:25:00Z",
+                awayTeam: "Pittsburgh Steelers",
+                homeTeam: "Philadelphia Eagles",
+                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/G9ovELPR8dExUou2r-x2eQ_120x120.png",
+                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/bY4iY-e4FFsUnDmkn5HDAg_120x120.png",
+                rawDate: "2026-11-22T18:00:00Z",
                 day: "Sunday",
-                venue: "Levi's Stadium",
+                venue: "Lincoln Financial Field",
                 statType: "RB",
-                player: "Josh Jacobs",
-                odds: "5/4",
-                intel: "Packers lean heavily on rushing sequences to establish early field control.",
+                player: "Saquon Barkley",
+                odds: "13/8",
+                intel: "In-state rivalry matchup with heavy ground game reliance and defensive front pressure.",
                 legs: [
-                    "Josh Jacobs Over 65.5 Rushing Yards",
-                    "Jordan Love Over 195.5 Passing Yards"
+                    "Saquon Barkley Over 65.5 Rushing Yards",
+                    "Eagles Team Total Over 21.5 Points"
                 ]
             },
             {
                 id: 5,
-                awayTeam: "Baltimore Ravens",
-                homeTeam: "Los Angeles Chargers",
-                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/4o4skCUO63LJdhtbyNbtCQ_120x120.png",
-                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/fQRCFlwKEORFAvo-Tix0dg_120x120.png",
-                rawDate: "2026-11-23T01:15:00Z",
-                day: "Monday",
-                venue: "SoFi Stadium",
-                statType: "QB",
-                player: "Lamar Jackson",
-                odds: "13/8",
-                intel: "Prime-time showcase featuring dynamic dual-threat yardage generation.",
+                awayTeam: "Miami Dolphins",
+                homeTeam: "Buffalo Bills",
+                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/zHAO1kUGSn_DRsTQBVT0IA_120x120.png",
+                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/t-WvhVQI8fKZliuPz7RLKQ_120x120.png",
+                rawDate: "2026-11-22T18:00:00Z",
+                day: "Sunday",
+                venue: "Highmark Stadium",
+                statType: "PTS",
+                player: "Josh Allen",
+                odds: "9/5",
+                intel: "AFC East clash favoring high point totals and sustained offensive drives in cold weather conditions.",
                 legs: [
-                    "Lamar Jackson Over 195.5 Passing Yards",
-                    "Derrick Henry Over 60.5 Rushing Yards"
+                    "Josh Allen Over 225.5 Passing Yards",
+                    "Total Game Points Over 44.5",
+                    "James Cook Over 45.5 Rushing Yards"
+                ]
+            },
+            {
+                id: 6,
+                awayTeam: "Minnesota Vikings",
+                homeTeam: "San Francisco 49ers",
+                awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/8yqZoGy4qCMuPcf3DpMhWQ_120x120.png",
+                homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/Sc-eM0054yQ9Pv4_HmNe0Q_120x120.png",
+                rawDate: "2026-11-23T01:20:00Z",
+                day: "Sunday",
+                venue: "Estadio Azteca (Mexico City)",
+                statType: "QB",
+                player: "Sam Darnold",
+                odds: "2/1",
+                intel: "International series matchup featuring elite explosive wide receiver weapon targets.",
+                legs: [
+                    "Justin Jefferson Over 65.5 Receiving Yards",
+                    "Total Game Points Over 42.5"
                 ]
             }
         ];
 
         const scheduleData = [
-            { home: "Cleveland Browns", away: "Pittsburgh Steelers", rawDate: "2026-11-20T01:15:00Z", day: "Thursday", venue: "Huntington Bank Field", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/hx_l1sL_i9bXW0o3A6Q0og_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/8yqZoGy4qCMuPcf3DpMhWQ_120x120.png" },
-            { home: "Carolina Panthers", away: "Kansas City Chiefs", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Bank of America Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/UVLlczXJQ1wxxKMT9ShJQw_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/h161_2sO0B3g5b0i5Qf06g_120x120.png" },
-            { home: "Chicago Bears", away: "Minnesota Vikings", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Soldier Field", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/8yqZoGy4qCMuPcf3DpMhWQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/fQRCFlwKEORFAvo-Tix0dg_120x120.png" },
-            { home: "San Francisco 49ers", away: "Green Bay Packers", rawDate: "2026-11-22T21:25:00Z", day: "Sunday", venue: "Levi's Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/c_wV_W_6w0l357Yj8g_h5Q_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/Sc-eM0054yQ9Pv4_HmNe0Q_120x120.png" },
-            { home: "Los Angeles Chargers", away: "Baltimore Ravens", rawDate: "2026-11-23T01:15:00Z", day: "Monday", venue: "SoFi Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/4o4skCUO63LJdhtbyNbtCQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/fQRCFlwKEORFAvo-Tix0dg_120x120.png" }
+            { home: "Houston Texans", away: "Indianapolis Colts", rawDate: "2026-11-20T01:15:00Z", day: "Thursday", venue: "Reliant Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/AGEeRWtwE37msOgDD99Kcw_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/73eNOlor0qBomqGY8Rv7sQ_120x120.png" },
+            { home: "Chicago Bears", away: "New Orleans Saints", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Soldier Field", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/VXbaB02tR54ZSCUrh13R6Q_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/iKk6JE8KwrY-hVGy2W3_9Q_120x120.png" },
+            { home: "Detroit Lions", away: "Tampa Bay Buccaneers", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Ford Field", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/rmgWcO4h9AV8fqA1K8XtiQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/0vpUGyYGKQ3ILA3rTI-sEA_120x120.png" },
+            { home: "Carolina Panthers", away: "Baltimore Ravens", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Bank of America Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/4o4skCUO63LJdhtbyNbtCQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/CXMe1uLygmmxPU3PNKga7g_120x120.png" },
+            { home: "Buffalo Bills", away: "Miami Dolphins", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Highmark Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/zHAO1kUGSn_DRsTQBVT0IA_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/t-WvhVQI8fKZliuPz7RLKQ_120x120.png" },
+            { home: "Philadelphia Eagles", away: "Pittsburgh Steelers", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Lincoln Financial Field", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/G9ovELPR8dExUou2r-x2eQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/bY4iY-e4FFsUnDmkn5HDAg_120x120.png" },
+            { home: "Dallas Cowboys", away: "Tennessee Titans", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "AT&T Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/480D2ENvPcLpQz2DJph0Kg_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/FkbA-uDEoPb3KPl-JD7yBg_120x120.png" },
+            { home: "Kansas City Chiefs", away: "Arizona Cardinals", rawDate: "2026-11-22T18:00:00Z", day: "Sunday", venue: "Arrowhead Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/VKf35yOV-6xMtJMrQ2bGuA_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/UVLlczXJQ1wxxKMT9ShJQw_120x120.png" },
+            { home: "Los Angeles Chargers", away: "New York Jets", rawDate: "2026-11-22T21:05:00Z", day: "Sunday", venue: "SoFi Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/9j5g8n8KJzW6gbKa8XoPpQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/fQRCFlwKEORFAvo-Tix0dg_120x120.png" },
+            { home: "New York Giants", away: "Jacksonville Jaguars", rawDate: "2026-11-22T21:25:00Z", day: "Sunday", venue: "MetLife Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/lvrPIb0a9oUMgZmkh2DLeQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/CWCa7SI5xq9aS3NP2Gbl9A_120x120.png" },
+            { home: "Denver Broncos", away: "Las Vegas Raiders", rawDate: "2026-11-22T21:25:00Z", day: "Sunday", venue: "Empower Field at Mile High", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/w7shEYWVYqmugc3x-DGVKg_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/-Y7S1VpDZQ6t9f-OZdlugw_120x120.png" },
+            { home: "San Francisco 49ers", away: "Minnesota Vikings", rawDate: "2026-11-23T01:20:00Z", day: "Sunday", venue: "Estadio Azteca", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/8yqZoGy4qCMuPcf3DpMhWQ_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/Sc-eM0054yQ9Pv4_HmNe0Q_120x120.png" },
+            { home: "Washington Commanders", away: "Cincinnati Bengals", rawDate: "2026-11-24T01:15:00Z", day: "Monday", venue: "Northwest Stadium", awayLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/WCVajjIFMyLDIeGymbgJRg_120x120.png", homeLogo: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/qORI0EhrcHjfv7bkKv7u9A_120x120.png" }
         ];
 
         let currentStatFilter = 'ALL';
@@ -449,10 +476,10 @@
             const dayBets = suggestedBetsData.filter(b => b.day === day);
 
             if (dayBets.length === 0) {
-                listContainer.innerHTML = `<p class="text-slate-400 text-sm italic col-span-3">No games scheduled for ${day}.</p>`;
+                listContainer.innerHTML = `<p class="text-slate-400 text-sm italic col-span-3">No featured games for ${day}.</p>`;
                 document.getElementById('selectedGameIntelContainer').innerHTML = `
                     <div class="text-center py-8 text-slate-400">
-                        <p class="text-sm">No games available for analytics on this day.</p>
+                        <p class="text-sm">No analytics available for this day.</p>
                     </div>
                 `;
                 return;
